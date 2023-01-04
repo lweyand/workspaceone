@@ -1,0 +1,41 @@
+---
+# tasks file for workspaceone
+- block:
+  - name: 'Install on Debian family'
+    ansible.builtin.import_tasks: install_debian.yml
+    when: ansible_os_family == 'Debian'
+  - name: 'Install on Red Hat family'
+    ansible.builtin.import_tasks: install_redhat.yml
+    when: ansible_os_family == 'RedHat'
+  - name: 'Install on others distributions'
+    ansible.builtin.import_tasks: install_other.yml
+    when: ansible_os_family not in ['RedHat', 'Debian']
+  
+  - name: Enroll to workspaceone
+    ansible.builtin.command: "{{ ws1_bin }} enroll --server {{ ws1_server_url }} --user {{ ws1_username }} --password {{ ws1_password }} --group {{ ws1_group_id }}"
+    args:
+      chdir: "{{ ws1_dir }}"
+    register: enroll_result
+    failed_when: '"Enrollment failed" in enroll_result.stdout'
+  when: (state is not defined) or (state is defined and state == 'present')
+
+- block:
+  - name: Unenroll to workspaceone
+    ansible.builtin.command: "{{ ws1_bin }} unenroll"
+    args:
+      chdir: "{{ ws1_dir }}"
+    register: unenroll_result
+  - name: 'Display unenrolment result'
+    debug:
+      var: unenroll_result
+      
+  - name: 'Uninstall on Debian family'
+    ansible.builtin.import_tasks: remove_debian.yml
+    when: ansible_os_family == 'Debian'
+  - name: 'Uninstall on Red Hat family'
+    ansible.builtin.import_tasks: remove_redhat.yml
+    when: ansible_os_family == 'RedHat'
+  - name: 'Uninstall on others distributions'
+    ansible.builtin.import_tasks: remove_other.yml
+    when: ansible_os_family not in ['RedHat', 'Debian']
+  when: state is defined and state == 'absent'

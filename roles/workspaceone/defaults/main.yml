@@ -1,0 +1,6 @@
+---
+# defaults file for workspaceone
+ws1_username: ''
+ws1_password: ''
+ws1_server_url: ''
+ws1_group_id: ''

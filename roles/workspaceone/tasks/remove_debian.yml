@@ -1,0 +1,8 @@
+---
+
+- name: 'Remove package'
+  ansible.builtin.apt:
+    package: 'workspaceone-intelligent-hub'
+    state: absent
+  become: true
+  

@@ -1,0 +1,5 @@
+---
+
+# vars file for workspaceone
+ws1_dir: '/opt/vmware/ws1-hub/bin'
+ws1_bin: './ws1HubUtil'
