@@ -1,12 +1,19 @@
 ---
 
-- name: Get workspaceone packages
+# Ceci n'installe pas les dépendances requises ....
+# - name: Install package
+#   ansible.builtin.apt:
+#     deb: 'https://packages.vmware.com/wsone/workspaceone-intelligent-hub-amd64-22.06.0.7.deb'
+#     force_apt_get: true
+#   become: true
+
+
+- name: 'Get workspaceone packages'
   ansible.builtin.get_url:
     url: "https://packages.vmware.com/wsone/workspaceone-intelligent-hub-amd64-22.06.0.7.deb"
     dest: '/tmp/workspaceone.deb'
-
-- name: Install package
-  ansible.builtin.apt:
-    deb: '/tmp/workspaceone.deb'
+  when: not ws1_stat.stat.exists
+- name: 'Install package'
+  command: 'apt install -y /tmp/workspaceone.deb'
   become: true
-  
+  when: not ws1_stat.stat.exists

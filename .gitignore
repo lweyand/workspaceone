@@ -1,2 +1,2 @@
-.virtualenv
+.virtualenv*
 host_vars

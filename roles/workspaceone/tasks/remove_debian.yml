@@ -4,5 +4,6 @@
   ansible.builtin.apt:
     package: 'workspaceone-intelligent-hub'
     state: absent
+    autoremove: true
   become: true
   

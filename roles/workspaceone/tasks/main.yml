@@ -1,5 +1,11 @@
 ---
 # tasks file for workspaceone
+
+- name: 'Check binary exist'
+  ansible.builtin.stat:
+    path: "{{ ws1_dir }}/{{ ws1_bin }}"
+  register: ws1_stat
+
 - block:
   - name: 'Install on Debian family'
     ansible.builtin.import_tasks: install_debian.yml
@@ -25,9 +31,11 @@
     args:
       chdir: "{{ ws1_dir }}"
     register: unenroll_result
+    when: ws1_stat.stat.exists
   - name: 'Display unenrolment result'
     debug:
       var: unenroll_result
+    when: ws1_stat.stat.exists
       
   - name: 'Uninstall on Debian family'
     ansible.builtin.import_tasks: remove_debian.yml
