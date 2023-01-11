@@ -19,6 +19,7 @@
   
   - name: Enroll to workspaceone
     ansible.builtin.command: "{{ ws1_bin }} enroll --server {{ ws1_server_url }} --user {{ ws1_username }} --password {{ ws1_password }} --group {{ ws1_group_id }}"
+    become: true
     args:
       chdir: "{{ ws1_dir }}"
     register: enroll_result
@@ -28,6 +29,7 @@
 - block:
   - name: Unenroll to workspaceone
     ansible.builtin.command: "{{ ws1_bin }} unenroll"
+    become: true
     args:
       chdir: "{{ ws1_dir }}"
     register: unenroll_result
