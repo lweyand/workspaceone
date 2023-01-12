@@ -1,4 +1,37 @@
 ---
 
 - fail:
-    msg: "Not Implemented"
+    msg: "Not tested"
+
+# package names may vary depending on distributions
+- name: 'Install dependencies'
+  ansible.builtin.package:
+    name:
+      - 'ruby'
+      - 'puppet-agent'
+
+- name: 'create tmp dir'
+  ansible.builtin.file:
+    path: '/tmp/workspaceone'
+    state: directory
+  when: not ws1_stat.stat.exists
+
+- name: 'Get workspaceone packages'
+  ansible.builtin.unarchive:
+    src: "https://packages.vmware.com/wsone/workspaceone-intelligent-hub-amd64-{{ ws1_version }}.tgz"
+    dest: '/tmp/workspaceone'
+  when: not ws1_stat.stat.exists
+
+- name: 'Execute install script'
+  ansible.builtin.command: "./install.sh"
+  become: true
+  args:
+    chdir: '/tmp/workspaceone'
+  when: not ws1_stat.stat.exists
+# Script return code or output should be checked
+
+- name: 'create tmp dir'
+  ansible.builtin.file:
+    path: '/tmp/workspaceone'
+    state: absent
+  when: not ws1_stat.stat.exists

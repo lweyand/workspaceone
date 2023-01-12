@@ -1,4 +1,10 @@
 ---
 
 - fail:
-    msg: "Not Implemented"
+    msg: "Not tested"
+
+- name: 'Remove package'
+  ansible.builtin.dnf:
+    package: 'workspaceone-intelligent-hub'
+    state: absent
+  become: true

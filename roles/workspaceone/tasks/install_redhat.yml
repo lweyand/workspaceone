@@ -1,4 +1,11 @@
 ---
 
 - fail:
-    msg: "Not Implemented"
+    msg: "Not tested"
+
+- name: 'Install packages'
+  ansible.builtin.dnf:
+    name: 'https://packages.vmware.com/wsone/workspaceone-intelligent-hub-amd64-{{ ws1_version }}.rpm'
+    state: present
+  when: not ws1_stat.stat.exists
+# Verifier que les dépendances sont installées, si non faire comme debian.
