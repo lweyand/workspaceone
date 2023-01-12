@@ -1,6 +1,12 @@
 ---
 # defaults file for workspaceone
+# Workspaceone username
 ws1_username: ''
+# Workspaceone password
 ws1_password: ''
+# Workspaceone server url without scheme
 ws1_server_url: ''
+# Workspaceone group id
 ws1_group_id: ''
+# Workspaceone version
+ws1_version: '22.06.0.7'
